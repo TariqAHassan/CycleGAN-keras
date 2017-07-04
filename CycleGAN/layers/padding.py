@@ -34,6 +34,5 @@ class ReflectPadding2D(Layer):
         return y
 
     def compute_output_shape(self, input_shape):
-        return (
-            input_shape[0], input_shape[1], input_shape[2] + (2 * self.padding[0]),
-            input_shape[3] + (2 * self.padding[1]))
+        return (input_shape[0], input_shape[1], input_shape[2] + (2 * self.padding[0]),
+                input_shape[3] + (2 * self.padding[1]))

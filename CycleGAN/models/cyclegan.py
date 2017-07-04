@@ -64,9 +64,9 @@ class CycleGAN(BaseModel):
             G_trainner = Model([real_A, real_B],
                                [dis_fake_B, dis_fake_A, rec_A, rec_B, ])
 
-            G_trainner.compile(Adam(lr=opt.lr, beta_1=opt.beta1, ),
-                               loss=['MSE', 'MSE', 'MAE', 'MAE', ],
-                               loss_weights=[1, 1, opt.lmbd, opt.lmbd, ])
+            G_trainner.compile(Adam(lr=opt.lr, beta_1=opt.beta1),
+                               loss=['MSE', 'MSE', 'MAE', 'MAE'],
+                               loss_weights=[1, 1, opt.lmbd, opt.lmbd])
         # label:  0             0               real_A      real_B
 
         # build for discriminators 
@@ -82,7 +82,7 @@ class CycleGAN(BaseModel):
 
         D_trainner = Model([real_A, fake_A, real_B, fake_B],
                            [dis_real_A, dis_fake_A, dis_real_B, dis_fake_B])
-        D_trainner.compile(Adam(lr=opt.lr, beta_1=opt.beta1, ), loss='MSE')
+        D_trainner.compile(Adam(lr=opt.lr, beta_1=opt.beta1), loss='MSE')
         # label: 0           0.9         0           0.9
 
         self.G_trainner = G_trainner

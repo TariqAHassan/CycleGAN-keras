@@ -3,6 +3,7 @@ from scipy.misc import imread, imresize
 import numpy as np
 import os
 
+
 class ImageGenerator(object):
     def __init__(self, root, resize=None, crop=None, flip=None):
         self.img_list = os.listdir(root)
@@ -21,10 +22,10 @@ class ImageGenerator(object):
                     img = imread(os.path.join(self.root, np.random.choice(self.img_list)))
 
                     if self.resize: img = imresize(img, self.resize)
-                    if self.crop: 
-                        left = np.random.randint(0, img.shape[0]-self.crop[0])
-                        top  = np.random.randint(0, img.shape[1]-self.crop[1])
-                        img = img[left:left+self.crop[0], top:top+self.crop[1]] 
+                    if self.crop:
+                        left = np.random.randint(0, img.shape[0] - self.crop[0])
+                        top = np.random.randint(0, img.shape[1] - self.crop[1])
+                        img = img[left:left + self.crop[0], top:top + self.crop[1]]
                     if self.flip:
                         if np.random.random() > 0.5:
                             img = img[:, ::-1, :]
@@ -35,7 +36,7 @@ class ImageGenerator(object):
                 if get_filter_dim() == 1:
                     imgs = imgs.transpose(0, 3, 1, 2)
 
-                imgs = imgs/127.5-1
+                imgs = imgs / 127.5 - 1
 
                 return imgs
             except:

@@ -4,15 +4,18 @@
 # when batch_size = 1 save_iter = 200 niter = 100000 lmbd = 5 pic_dir = args.pic_dir idloss = 0.0 lr = 0.0002
 
 import argparse
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--cuda", type=str, help="cuda", default='2')
 parser.add_argument("--pic_dir", type=str, help="picture dir", default='./quickshots/quickshots18')
 args = parser.parse_args()
-print args
+print(args)
 
 import os
-os.environ['THEANO_FLAGS']=os.environ.get('THEANO_FLAGS','')+',gpuarray.preallocate=0.45,device=cuda{}'.format(args.cuda)
-os.environ['CUDA_VISIBLE_DEVICES']='{}'.format(args.cuda) 
+
+os.environ['THEANO_FLAGS'] = (os.environ.get('THEANO_FLAGS', '') +
+                              ',gpuarray.preallocate=0.45,device=cuda{}'.format(args.cuda))
+os.environ['CUDA_VISIBLE_DEVICES'] = '{}'.format(args.cuda)
 
 from CycleGAN.utils.data_utils import ImageGenerator
 from CycleGAN.models import CycleGAN
@@ -32,12 +35,11 @@ if __name__ == '__main__':
     opt.__dict__.update(args.__dict__)
     opt.summary()
 
-
     cycleGAN = CycleGAN(opt)
 
-    IG_A = ImageGenerator(root='./datasets/horse2zebra/trainA', 
-                resize=opt.resize, crop=opt.crop)
-    IG_B = ImageGenerator(root='./datasets/horse2zebra/trainB', 
-                resize=opt.resize, crop=opt.crop)
+    IG_A = ImageGenerator(root='./datasets/horse2zebra/trainA',
+                          resize=opt.resize, crop=opt.crop)
+    IG_B = ImageGenerator(root='./datasets/horse2zebra/trainB',
+                          resize=opt.resize, crop=opt.crop)
 
     cycleGAN.fit(IG_A, IG_B)

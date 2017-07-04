@@ -1,1 +1,1 @@
-from cyclegan import CycleGAN
+from .cyclegan import CycleGAN

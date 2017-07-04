@@ -1,8 +1,12 @@
 from keras.engine.topology import Layer
 import keras.backend as K
 
+
 class InstanceNormalization2D(Layer):
-    ''' Thanks for github.com/jayanthkoushik/neural-style '''
+    """
+    Thanks for github.com/jayanthkoushik/neural-style
+    """
+
     def __init__(self, **kwargs):
         super(InstanceNormalization2D, self).__init__(**kwargs)
 
@@ -20,15 +24,16 @@ class InstanceNormalization2D(Layer):
 
         hw = K.cast(x.shape[2] * x.shape[3], K.floatx())
         mu = K.sum(x, [-1, -2]) / hw
-        mu_vec = image_expand(mu) 
+        mu_vec = image_expand(mu)
         sig2 = K.sum(K.square(x - mu_vec), [-1, -2]) / hw
         y = (x - mu_vec) / (K.sqrt(image_expand(sig2)) + K.epsilon())
 
         scale = batch_image_expand(self.scale)
         shift = batch_image_expand(self.shift)
-        return scale*y + shift 
-#       else:
-#           raise NotImplemented("Please complete `CycGAN/layers/padding.py` to run on backend {}.".format(K.backend()))
+        return scale * y + shift
+
+    #       else:
+    #           raise NotImplemented("Please complete `CycGAN/layers/padding.py` to run on backend {}.".format(K.backend()))
 
     def compute_output_shape(self, input_shape):
-        return input_shape 
+        return input_shape

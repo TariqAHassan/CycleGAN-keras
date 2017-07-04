@@ -1,4 +1,5 @@
 # keras version of https://github.ckom/junyanz/CycleGAN/models/cycle_gan_model.lua
+from __future__ import print_function
 
 import os
 from .base import BaseModel
@@ -68,7 +69,6 @@ class CycleGAN(BaseModel):
                                loss_weights=[1, 1, opt.lmbd, opt.lmbd, ])
         # label:  0             0               real_A      real_B
 
-
         # build for discriminators 
         real_A = Input(opt.shapeA)
         fake_A = Input(opt.shapeA)
@@ -84,7 +84,6 @@ class CycleGAN(BaseModel):
                            [dis_real_A, dis_fake_A, dis_real_B, dis_fake_B])
         D_trainner.compile(Adam(lr=opt.lr, beta_1=opt.beta1, ), loss='MSE')
         # label: 0           0.9         0           0.9
-
 
         self.G_trainner = G_trainner
         self.D_trainner = D_trainner
@@ -105,8 +104,7 @@ class CycleGAN(BaseModel):
 
         iteration = 0
         while iteration < opt.niter:
-            print
-            'iteration: {}'.format(iteration)
+            print('iteration: {}'.format(iteration))
             # sample
             real_A = img_A_generator(bs)
             real_B = img_B_generator(bs)
@@ -166,7 +164,7 @@ class CycleGAN(BaseModel):
                 imgb2a2b = self.AtoB.predict(imgb2a)
 
                 vis_grid(np.concatenate([imga, imga2b, imga2b2a, imgb, imgb2a, imgb2a2b], axis=0),
-                         nh=6, nw=bs, save=os.path.join(opt.pic_dir, '{}.png'.format(iteration)))
+                         nh=6, nw=bs, save_path=os.path.join(opt.pic_dir, '{}.png'.format(iteration)))
 
                 self.AtoB.save(os.path.join(opt.pic_dir, 'a2b.h5'))
                 self.BtoA.save(os.path.join(opt.pic_dir, 'b2a.h5'))
